@@ -1,22 +1,18 @@
 package org.cobra;
 
-import org.cobra.GameConfigManager.GameConfig;
-import org.cobra.GameConfigManager.WindowConfig;
-
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.time.Duration;
 import java.time.Instant;
-
+import org.cobra.GameConfigManager.GameConfig;
+import org.cobra.GameConfigManager.WindowConfig;
 
 public class GameFrame extends Frame {
   private static final int BUFFER_TYPE = BufferedImage.TYPE_INT_RGB;
 
-  private BufferedImage secondBuffer;
+  private final BufferedImage secondBuffer;
   private final Game game;
   private long time = 0;
 
@@ -27,14 +23,15 @@ public class GameFrame extends Frame {
       setExtendedState(Frame.MAXIMIZED_BOTH);
       setUndecorated(true);
     }
-    game = new Game();
-    addWindowListener(new WindowAdapter() {
-      @Override
-      public void windowClosing(WindowEvent e) {
-        System.exit(0);
-      }
-    });
-    addComponentListener(new ResizeListener());
+    game = new Game(new FontProvider());
+    addWindowListener(
+        new WindowAdapter() {
+          @Override
+          public void windowClosing(WindowEvent e) {
+            System.exit(0);
+          }
+        });
+    setResizable(false);
     addKeyListener(game);
     secondBuffer = new BufferedImage(windowConfig.width(), windowConfig.height(), BUFFER_TYPE);
   }
@@ -70,21 +67,5 @@ public class GameFrame extends Frame {
     Graphics2D graphics2d = (Graphics2D) graphics;
     graphics2d.setBackground(Color.BLACK);
     paint(graphics2d);
-  }
-
-  private class ResizeListener implements ComponentListener {
-
-    @Override
-    public void componentResized(ComponentEvent e) {
-      Component component = e.getComponent();
-      secondBuffer = new BufferedImage(component.getWidth(), component.getHeight(), BUFFER_TYPE);
-    }
-
-    @Override
-    public void componentMoved(ComponentEvent e) {}
-    @Override
-    public void componentShown(ComponentEvent e) {}
-    @Override
-    public void componentHidden(ComponentEvent e) {}
   }
 }

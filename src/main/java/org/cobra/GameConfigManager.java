@@ -1,7 +1,6 @@
 package org.cobra;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.*;
 
 public class GameConfigManager {
@@ -12,7 +11,7 @@ public class GameConfigManager {
   public void createIfNotExist() throws IOException {
     if (!gameConfigFile.exists()) {
       this.gameConfig = GameConfig.defaults();
-      try(OutputStream out = new BufferedOutputStream(new FileOutputStream(gameConfigFile))) {
+      try (OutputStream out = new BufferedOutputStream(new FileOutputStream(gameConfigFile))) {
         objectMapper.writeValue(out, gameConfig);
       }
     }
@@ -20,7 +19,7 @@ public class GameConfigManager {
 
   public GameConfig loadConfig() throws IOException {
     if (gameConfig == null) {
-      try(InputStream in = new FileInputStream(gameConfigFile)) {
+      try (InputStream in = new FileInputStream(gameConfigFile)) {
         gameConfig = objectMapper.readValue(in, GameConfig.class);
       }
     }
@@ -32,6 +31,7 @@ public class GameConfigManager {
       return new WindowConfig(800, 600, false);
     }
   }
+
   public record GameConfig(WindowConfig windowConfig) {
     public static GameConfig defaults() {
       return new GameConfig(WindowConfig.defaults());
