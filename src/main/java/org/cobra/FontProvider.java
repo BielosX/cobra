@@ -12,27 +12,25 @@ public class FontProvider {
     return this.getClass().getClassLoader().getResourceAsStream(path);
   }
 
-  @SneakyThrows
   public Font getTitleFont() {
     if (titleFont == null) {
-      try (InputStream stream = getResource("ButterflyKids-Regular.ttf")) {
-        assert stream != null;
-        titleFont = Font.createFont(Font.TRUETYPE_FONT, stream);
-        titleFont = titleFont.deriveFont(Font.PLAIN, 100);
-      }
+      titleFont = getFontFromResource("ButterflyKids-Regular.ttf").deriveFont(Font.PLAIN, 100);
     }
     return titleFont;
   }
 
-  @SneakyThrows
   public Font getMenuFont() {
     if (menuFont == null) {
-      try (InputStream stream = getResource("RubikDistressed-Regular.ttf")) {
-        assert stream != null;
-        menuFont = Font.createFont(Font.TRUETYPE_FONT, stream);
-        menuFont = menuFont.deriveFont(Font.PLAIN, 30);
-      }
+      menuFont = getFontFromResource("RubikDistressed-Regular.ttf").deriveFont(Font.PLAIN, 30);
     }
     return menuFont;
+  }
+
+  @SneakyThrows
+  private Font getFontFromResource(String path) {
+    try (InputStream stream = getResource(path)) {
+      assert stream != null;
+      return Font.createFont(Font.TRUETYPE_FONT, stream);
+    }
   }
 }
