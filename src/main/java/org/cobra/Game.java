@@ -7,17 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game implements KeyListener {
-  private final static String TITLE = "Cobra";
-  private final static String START_GAME = "Start Game";
   private final List<GameKeyEvent> keyEvents = new ArrayList<>();
-  private final FontProvider fontProvider;
   private float positionX = 0f;
   private float positionY = 0f;
   private float velocityX = 0f;
   private float velocityY = 0f;
+  private final MainMenu mainMenu;
 
-  public Game(FontProvider fontProvider) {
-    this.fontProvider = fontProvider;
+  public Game(MainMenu mainMenu) {
+    this.mainMenu = mainMenu;
   }
 
   @Override
@@ -66,14 +64,7 @@ public class Game implements KeyListener {
 
   public void draw(Graphics2D graphics, int width, int height) {
     graphics.drawRect((int) positionX, (int) positionY, 100, 100);
-    graphics.setFont(fontProvider.getTitleFont());
-    graphics.setColor(Color.WHITE);
-    int stringWidth = graphics.getFontMetrics().stringWidth(TITLE);
-    graphics.drawString(TITLE, (width - stringWidth) >> 1, 100);
-    graphics.setFont(fontProvider.getMenuFont());
-    graphics.setColor(Color.WHITE);
-    stringWidth = graphics.getFontMetrics().stringWidth(START_GAME);
-    graphics.drawString(START_GAME, (width - stringWidth) >> 1, 300);
+    mainMenu.draw(graphics);
   }
 
   private enum KeyAction {

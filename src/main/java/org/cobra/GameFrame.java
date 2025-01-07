@@ -23,7 +23,7 @@ public class GameFrame extends Frame {
       setExtendedState(Frame.MAXIMIZED_BOTH);
       setUndecorated(true);
     }
-    game = new Game(new FontProvider());
+    game = new Game(new MainMenu(windowConfig.width(), windowConfig.height(), new FontProvider()));
     addWindowListener(
         new WindowAdapter() {
           @Override
