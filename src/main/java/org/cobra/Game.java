@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game implements KeyListener {
+  private final static String TITLE = "Cobra";
+  private final static String START_GAME = "Start Game";
   private final List<GameKeyEvent> keyEvents = new ArrayList<>();
   private final FontProvider fontProvider;
   private float positionX = 0f;
@@ -62,14 +64,16 @@ public class Game implements KeyListener {
     positionY += velocityY * delta;
   }
 
-  public void draw(Graphics2D graphics) {
+  public void draw(Graphics2D graphics, int width, int height) {
     graphics.drawRect((int) positionX, (int) positionY, 100, 100);
     graphics.setFont(fontProvider.getTitleFont());
     graphics.setColor(Color.WHITE);
-    graphics.drawString("Cobra", 300, 100);
+    int stringWidth = graphics.getFontMetrics().stringWidth(TITLE);
+    graphics.drawString(TITLE, (width - stringWidth) >> 1, 100);
     graphics.setFont(fontProvider.getMenuFont());
     graphics.setColor(Color.WHITE);
-    graphics.drawString("Start Game", 300, 300);
+    stringWidth = graphics.getFontMetrics().stringWidth(START_GAME);
+    graphics.drawString(START_GAME, (width - stringWidth) >> 1, 300);
   }
 
   private enum KeyAction {

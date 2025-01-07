@@ -56,7 +56,7 @@ public class GameFrame extends Frame {
     Instant beforeRendering = Instant.now();
     secondBufferClearColor(0);
     Graphics2D bufferGraphics = secondBuffer.createGraphics();
-    game.draw(bufferGraphics);
+    game.draw(bufferGraphics, getWidth(), getHeight());
     graphics2d.drawImage(secondBuffer, null, 0, 0);
     time += Duration.between(beforeRendering, Instant.now()).getNano();
     repaint();
