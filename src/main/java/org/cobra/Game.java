@@ -62,8 +62,8 @@ public class Game implements KeyListener {
     positionY += velocityY * delta;
   }
 
-  public void draw(Graphics2D graphics, int width, int height) {
-    graphics.drawRect((int) positionX, (int) positionY, 100, 100);
+  public void draw(Graphics2D graphics) {
+    graphics.fillRect((int) positionX, (int) positionY, 100, 100);
     mainMenu.draw(graphics);
   }
 
