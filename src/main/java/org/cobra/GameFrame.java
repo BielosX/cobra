@@ -36,14 +36,10 @@ public class GameFrame extends Frame {
     secondBuffer = new BufferedImage(windowConfig.width(), windowConfig.height(), BUFFER_TYPE);
   }
 
-  private void secondBufferClearColor(int color) {
-    int width = secondBuffer.getWidth();
-    int height = secondBuffer.getHeight();
-    for (int x = 0; x < width; x++) {
-      for (int y = 0; y < height; y++) {
-        secondBuffer.setRGB(x, y, color);
-      }
-    }
+  private void secondBufferClearColor(Color color) {
+    Graphics2D g2d = secondBuffer.createGraphics();
+    g2d.setColor(color);
+    g2d.clearRect(0, 0, secondBuffer.getWidth(), secondBuffer.getHeight());
   }
 
   @Override
@@ -54,7 +50,7 @@ public class GameFrame extends Frame {
       game.tick(0.1f);
     }
     Instant beforeRendering = Instant.now();
-    secondBufferClearColor(0);
+    secondBufferClearColor(Color.BLACK);
     Graphics2D bufferGraphics = secondBuffer.createGraphics();
     game.draw(bufferGraphics);
     graphics2d.drawImage(secondBuffer, null, 0, 0);
