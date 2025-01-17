@@ -6,6 +6,8 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.function.Consumer;
+
 import org.cobra.GameConfigManager.GameConfig;
 import org.cobra.GameConfigManager.WindowConfig;
 
@@ -44,17 +46,17 @@ public class GameFrame extends Frame {
 
   @Override
   public void paint(Graphics graphics) {
+    Instant beforeUpdate = Instant.now();
     Graphics2D graphics2d = (Graphics2D) graphics;
     if (time > 10000000) {
       time = time % 10000000;
       game.tick(0.1f);
     }
-    Instant beforeRendering = Instant.now();
     secondBufferClearColor(Color.BLACK);
     Graphics2D bufferGraphics = secondBuffer.createGraphics();
     game.draw(bufferGraphics);
     graphics2d.drawImage(secondBuffer, null, 0, 0);
-    time += Duration.between(beforeRendering, Instant.now()).getNano();
+    time += Duration.between(beforeUpdate, Instant.now()).getNano();
     repaint();
   }
 
