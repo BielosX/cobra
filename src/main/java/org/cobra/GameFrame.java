@@ -13,6 +13,7 @@ import org.cobra.GameConfigManager.WindowConfig;
 
 public class GameFrame extends Frame {
   private static final int BUFFER_TYPE = BufferedImage.TYPE_INT_RGB;
+  private static final long NANOS_PER_TICK = 1_000_000_0L;
 
   private final BufferedImage secondBuffer;
   private final Game game;
@@ -48,9 +49,10 @@ public class GameFrame extends Frame {
   public void paint(Graphics graphics) {
     Instant beforeUpdate = Instant.now();
     Graphics2D graphics2d = (Graphics2D) graphics;
-    if (time > 10000000) {
-      time = time % 10000000;
-      game.tick(0.1f);
+    if (time > NANOS_PER_TICK) {
+      long ticks = time / NANOS_PER_TICK;
+      time = time % NANOS_PER_TICK;
+      game.tick(0.1f * ticks);
     }
     secondBufferClearColor(Color.BLACK);
     Graphics2D bufferGraphics = secondBuffer.createGraphics();
