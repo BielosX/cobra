@@ -6,8 +6,6 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.function.Consumer;
-
 import org.cobra.GameConfigManager.GameConfig;
 import org.cobra.GameConfigManager.WindowConfig;
 
@@ -22,11 +20,17 @@ public class GameFrame extends Frame {
   public GameFrame(GameConfig gameConfig) {
     WindowConfig windowConfig = gameConfig.windowConfig();
     setSize(windowConfig.width(), windowConfig.height());
+    setUndecorated(true);
     if (windowConfig.fullscreen()) {
       setExtendedState(Frame.MAXIMIZED_BOTH);
       setUndecorated(true);
     }
-    game = new Game(new MainMenu(windowConfig.width(), windowConfig.height(), new FontProvider()));
+    game =
+        new Game(
+            new MainMenu(windowConfig.width(), windowConfig.height(), new FontProvider()),
+            GameArea.newGameArea(windowConfig.width(), windowConfig.height(), 16),
+            windowConfig.width(),
+            windowConfig.height());
     addWindowListener(
         new WindowAdapter() {
           @Override

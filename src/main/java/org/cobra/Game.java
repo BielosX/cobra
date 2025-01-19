@@ -13,9 +13,15 @@ public class Game implements KeyListener {
   private float velocityX = 0f;
   private float velocityY = 0f;
   private final MainMenu mainMenu;
+  private final GameArea gameArea;
+  private final int windowWidth;
+  private final int windowHeight;
 
-  public Game(MainMenu mainMenu) {
+  public Game(MainMenu mainMenu, GameArea gameArea, int windowWidth, int windowHeight) {
     this.mainMenu = mainMenu;
+    this.gameArea = gameArea;
+    this.windowWidth = windowWidth;
+    this.windowHeight = windowHeight;
   }
 
   @Override
@@ -63,8 +69,12 @@ public class Game implements KeyListener {
   }
 
   public void draw(Graphics2D graphics) {
-    graphics.fillRect((int) positionX, (int) positionY, 100, 100);
-    mainMenu.draw(graphics);
+    // mainMenu.update();
+    // graphics.drawImage(mainMenu, 0, 0, null);
+    gameArea.update();
+    int topPadding = (windowHeight - gameArea.getHeight()) >> 1;
+    int leftPadding = (windowWidth - gameArea.getWidth()) >> 1;
+    graphics.drawImage(gameArea, null, leftPadding, topPadding);
   }
 
   private enum KeyAction {
