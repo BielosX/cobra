@@ -9,6 +9,7 @@ public class Main {
     gameConfigManager.createIfNotExist();
     GameConfig config = gameConfigManager.loadConfig();
     GameFrame frame = new GameFrame(config);
+    frame.setLocationRelativeTo(null);
     frame.setVisible(true);
   }
 }
