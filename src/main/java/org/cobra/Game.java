@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game implements KeyListener {
   private final List<GameKeyEvent> keyEvents = new ArrayList<>();
@@ -16,12 +17,15 @@ public class Game implements KeyListener {
   private final GameArea gameArea;
   private final int windowWidth;
   private final int windowHeight;
+  private final Random random = new Random();
+  private float appleTime;
 
   public Game(MainMenu mainMenu, GameArea gameArea, int windowWidth, int windowHeight) {
     this.mainMenu = mainMenu;
     this.gameArea = gameArea;
     this.windowWidth = windowWidth;
     this.windowHeight = windowHeight;
+    appleTime = 20f;
   }
 
   @Override
@@ -66,6 +70,11 @@ public class Game implements KeyListener {
     keyEvents.clear();
     positionX += velocityX * delta;
     positionY += velocityY * delta;
+    if (appleTime >= 20f) {
+      gameArea.setPosition(new GameArea.Position(random.nextInt(16), random.nextInt(16)));
+      appleTime = 0f;
+    }
+    appleTime += delta;
   }
 
   public void draw(Graphics2D graphics) {
